@@ -84,7 +84,7 @@ col3, col4 = st.columns(2)
 with col3:
     mu = st.slider("μ: mean conversions per site", min_value=0.5, max_value=3.0, value=1.0, step=0.1)
 with col4:
-    dispersion = st.slider("k: dispersion (higher = less overdispersion)", min_value=100.0, max_value=10000.0, value=1000.0)
+    dispersion = st.slider("k: dispersion (higher = less overdispersion)", min_value=100, max_value=10000, value=1000)
 
 combined_mean = sites * mu
 poisson_mean = combined_mean
