@@ -5,19 +5,19 @@ import streamlit as st
 
 st.set_page_config(page_title="Negative Binomial is a better Poisson Distribution", layout="wide")
 
-st.title("Negative Binomial is a better Poisson Distribution")
+st.title("Negative Binomial is a \"better\" Poisson Distribution")
 st.write(
     """
 A binomial distribution models the number of successes from a discrete number of events. By extension, a negative binomial distribution models the number of attempts required to get r successes, given 
-the probability of success being p in any given event, modelled as $X_{i}\~NB(r,p)$ \n
-A poisson distribution models the discrete number of events happening over a fixed time period, modelled as $X_j\~Poisson(\lambda)$. \n\n
+the probability of success being p in any given event, modelled as $X_{i}\sim\mathrm{NB}(r,p)$ \n
+A poisson distribution models the discrete number of events happening over a fixed time period, modelled as $X_j\sim\mathrm{Poisson}(\lambda)$. \n\n
 
 Despite these two distributions being quite different, we can actually use a negative binomial distribution to approximate Poisson.
 """
 )
 
 # Section 1: NB approximating Poisson
-st.header("1) Pushing the Negative Binomial toward Poisson")
+st.header("1) How can a Negative Binomial be related to a Poisson?")
 st.write(
     """
 When the number of required successes **r** is large and the success probability **p** is close
@@ -53,7 +53,7 @@ fig_part1.add_trace(
     go.Scatter(x=x_values_part1, y=poisson_pmf, mode="lines+markers", name="Poisson PMF")
 )
 fig_part1.add_trace(
-    go.Scatter(x=x_values_part1, y=nb_pmf, mode="lines+markers", name="NB PMF")
+    go.Scatter(x=x_values_part1, y=nb_pmf, mode="lines+markers", name="Negative Binomial PMF")
 )
 fig_part1.update_layout(
     title="Poisson vs. Negative Binomial", xaxis_title="k", yaxis_title="Probability"
@@ -108,7 +108,7 @@ fig_part2.add_trace(
     go.Scatter(x=x_values_part2, y=nb_pmf_part2, mode="lines+markers", name="Negative Binomial PMF")
 )
 fig_part2.update_layout(
-    title="Poisson vs. Gamma-Poisson for Banner Ad Conversion across sites",
+    title="Poisson vs. Negative Binomial for Banner Ad Conversion across sites",
     xaxis_title="Conversions",
     yaxis_title="Probability",
     xaxis_range=[0, 2000],
