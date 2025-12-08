@@ -69,7 +69,7 @@ st.write(
     """
 In a pure Poisson model, the mean is equal to the variance, coupling both moments together. A Negative Binomial distribution with distinct mean and variance values are no longer constrained to be equal. **This means the Negative Binomial distribution can not only imitate a Poisson distribution (as shown above), it can also be thought of as a more flexible Poisson distribution.** \n
 
-Let's illustrate with an example: Let's say we want to model the no. of click-throughs from a banner ad across websites. We can use a known average click-through rate - this means setting a $\mu$ value and also setting a variance as a result. \n
+Let's illustrate with an example: Let's say we want to model the no. of click-throughs from a banner ad across 500 websites. We can use a known average click-through rate - this means setting a $\mu$ value and also setting a variance as a result. \n
 
 In real life though, not every site will provide the same click-through with the same banner ad. Some sites see more/less foot traffic, and some sites are more/less related to the banner ad - we might see an increased variation in click-through (compared to the mean) depending on the site.
 This is where introducing a parameter for **dispersion** would help - we can tune how much variation we can expect between sites when modelling for a variable, which is where the flexibility of a NB distribution would be helpful.
@@ -78,12 +78,12 @@ This is where introducing a parameter for **dispersion** would help - we can tun
 """
 )
 
-col3, col4, col5 = st.columns(3)
+sites = 500
+
+col3, col4 = st.columns(2)
 with col3:
-    sites = st.slider("S: number of sites", min_value=1, max_value=5000, value=5000)
+    mu = st.slider("μ: mean conversions per site", min_value=0.5, max_value=3.0, value=1.0, step=0.1)
 with col4:
-    mu = st.slider("μ: mean conversions per site", min_value=0.1, max_value=5.0, value=1.0, step=0.1)
-with col5:
     dispersion = st.slider("k: dispersion (higher = less overdispersion)", min_value=100.0, max_value=10000.0, value=1000.0)
 
 combined_mean = sites * mu
@@ -95,8 +95,7 @@ nb_dist_over = stats.nbinom(n=dispersion, p=nb_p)
 nb_mean = combined_mean
 nb_variance = combined_mean + (combined_mean ** 2) / dispersion
 
-x_max_part2 = int(max(stats.poisson(mu=poisson_mean).ppf(0.999), nb_dist_over.ppf(0.999)))
-x_values_part2 = np.arange(0, max(x_max_part2, 1) + 1)
+x_values_part2 = np.arange(0, 2000 + 1)
 
 poisson_pmf_part2 = stats.poisson(mu=poisson_mean).pmf(x_values_part2)
 nb_pmf_part2 = nb_dist_over.pmf(x_values_part2)
@@ -109,7 +108,10 @@ fig_part2.add_trace(
     go.Scatter(x=x_values_part2, y=nb_pmf_part2, mode="lines+markers", name="Negative Binomial PMF")
 )
 fig_part2.update_layout(
-    title="Poisson vs. Gamma-Poisson for Banner Ad Conversion across sites", xaxis_title="Conversions", yaxis_title="Probability"
+    title="Poisson vs. Gamma-Poisson for Banner Ad Conversion across sites",
+    xaxis_title="Conversions",
+    yaxis_title="Probability",
+    xaxis_range=[0, 2000],
 )
 
 st.plotly_chart(fig_part2, use_container_width=True)
